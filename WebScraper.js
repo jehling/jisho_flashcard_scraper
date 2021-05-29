@@ -18,15 +18,15 @@ async function getJishoCard(kanjiStr){
     // Stage 2: JLPT Rating
     let jlptRating = $(card).find('.concept_light-tag:nth-child(2)').text();
     // Stage 3: Part of Speech
-    let grammar = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-tags:first').text();
+    let grammar = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-tags:first').text().split(',');
     // Stage 4: English Meaning
     let meaning = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-wrapper:first .meaning-meaning').text();
     // Stage 5: Assemble Object
     return {
         kanji: kanjiStr,
-        furigana: furigana,
+        furi: furigana,
         jlpt: jlptRating,
-        pos: grammar,
+        gram: grammar,
         def: meaning,
     };
 }
