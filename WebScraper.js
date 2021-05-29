@@ -1,7 +1,6 @@
 // Imports
 const {JSDOM, VirtualConsole} = require('jsdom');
 const jquery = require('jquery');
-const { mean } = require('lodash');
 
 // Constants
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
