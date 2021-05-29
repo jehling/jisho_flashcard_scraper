@@ -1,5 +1,5 @@
 // Imports
-const {JSDOM, VirtualConsole} = require('jsdom');
+const {JSDOM} = require('jsdom');
 const jquery = require('jquery');
 
 // Constants
@@ -11,9 +11,9 @@ async function getJishoCard(kanjiStr){
     let card = $('#primary div.concept_light:first');
     // Stage 1: Furigana
     let furigana = [];
-    $(card).find('.concept_light-readings:first .furigana').contents().each((idx, val) => {
-        let text = $(val).text();
-        if(text.trim().length > 0) furigana.push(text);
+    $(card).find('.concept_light-readings:first .furigana').children().each((idx, val) => {
+        let text = $(val).text().trim();
+        furigana.push(text);
     });
     // Stage 2: JLPT Rating
     let jlptRating = $(card).find('.concept_light-tag:nth-child(2)').text();
@@ -34,3 +34,4 @@ async function getJishoCard(kanjiStr){
 getJishoCard("英語").then(output => console.log(output));
 getJishoCard("勉強する").then(output => console.log(output));
 getJishoCard("食べた").then(output => console.log(output));
+getJishoCard("走り回る").then(output => console.log(output));
