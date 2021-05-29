@@ -11,7 +11,7 @@ async function getJishoCard(kanjiStr){
     let card = $('#primary div.concept_light:first');
     // Stage 1: Furigana
     let furigana = [];
-    $(card).find('.furigana').contents().each((idx, val) => {
+    $(card).find('.concept_light-readings:first .furigana').contents().each((idx, val) => {
         let text = $(val).text();
         if(text.trim().length > 0) furigana.push(text);
     });
@@ -32,3 +32,5 @@ async function getJishoCard(kanjiStr){
 }
 
 getJishoCard("英語").then(output => console.log(output));
+getJishoCard("勉強する").then(output => console.log(output));
+getJishoCard("食べた").then(output => console.log(output));
