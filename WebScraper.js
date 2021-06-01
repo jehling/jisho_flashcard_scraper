@@ -45,5 +45,12 @@ function parseTermList(file){
     });
 }
 
-getJishoCard("走り回る").then(output => console.log(output));
-parseTermList('./terms.txt').then(list => console.log(list));
+function getCardList(termList){
+    let cardList = [];
+    termList.forEach(term => {
+        cardList.push(getJishoCard(term));
+    });
+    return Promise.all(cardList);
+}
+
+parseTermList('./terms.txt').then(getCardList).then(cards => console.log(cards));
