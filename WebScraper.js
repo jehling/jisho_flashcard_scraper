@@ -1,9 +1,11 @@
 // Imports
 const {JSDOM} = require('jsdom');
 const jquery = require('jquery');
+const fs = require('fs');
 
 // Constants
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
+const INPUT_DELIMETER = '\n';
 
 async function getJishoCard(kanjiStr){
     let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + kanjiStr);
@@ -31,7 +33,17 @@ async function getJishoCard(kanjiStr){
     };
 }
 
-getJishoCard("英語").then(output => console.log(output));
-getJishoCard("勉強する").then(output => console.log(output));
-getJishoCard("食べた").then(output => console.log(output));
+function parseTermList(file){
+    return new Promise((resolve, reject) => {
+        fs.readFile(file, (err, buffer) => {
+            if(err) return reject(err);
+            let rawArray = buffer.toString().split(INPUT_DELIMETER);
+            let cleanArray = [];
+            rawArray.forEach(term => cleanArray.push(term.trim()));
+            return resolve(cleanArray);
+        });
+    });
+}
+
 getJishoCard("走り回る").then(output => console.log(output));
+parseTermList('./terms.txt').then(list => console.log(list));
