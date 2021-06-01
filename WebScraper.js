@@ -6,6 +6,7 @@ const fs = require('fs');
 // Constants
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
 const INPUT_DELIMETER = '\n';
+const JLPT_REGEX = /N[1-5]/;
 
 async function getJishoCard(kanjiStr){
     let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + kanjiStr);
@@ -27,7 +28,7 @@ async function getJishoCard(kanjiStr){
     return {
         kanji: kanjiStr,
         furi: furigana,
-        jlpt: jlptRating,
+        jlpt: (jlptRating ? jlptRating.match(JLPT_REGEX)[0] : jlptRating),
         gram: grammar,
         def: meaning,
     };

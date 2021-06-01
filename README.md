@@ -13,7 +13,7 @@ Script used to scrape key info from Jisho.org and process it into a custom file 
 {
   kanji: '英語',
   furi: [ 'えい', 'ご' ],
-  jlpt: 'JLPT N5',
+  jlpt: 'N5',
   gram: [ 'Noun', ' No-adjective' ],
   def: 'English (language)'
 }
