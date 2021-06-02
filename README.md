@@ -1,4 +1,4 @@
-# jisho_to_anki_script
+# jisho_flashcard_script
 Script used to scrape key info from Jisho.org and process it into a custom file format (csv, spaces, etc.) for later consumption by a service of your choice.
 
 ## Jisho Data Object

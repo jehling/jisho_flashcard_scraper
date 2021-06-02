@@ -9,6 +9,11 @@ const INPUT_DELIMETER = '\n';
 const OUTPUT_DELIMETER = ';';
 const JLPT_REGEX = /N[1-5]/;
 
+/**
+ * Extracts target data from Jisho.org HTML page given an arbitrary word
+ * @param {*} kanjiStr term searched for using Jisho.org
+ * @returns data object containing { kanji, furi, jlpt, gram, def }
+ */
 async function getJishoCard(kanjiStr){
     let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + kanjiStr);
     let $ = jquery(dom.window);
@@ -35,6 +40,11 @@ async function getJishoCard(kanjiStr){
     };
 }
 
+/**
+ * Generate Anki specific furigana string for flashcard formatting
+ * @param {*} card 
+ * @returns formatted string with kanji[furigana]
+ */
 function formatFuriStr(card){
     let outputStr = ``;
     let furiList = card.furi;
@@ -48,10 +58,20 @@ function formatFuriStr(card){
     return outputStr;
 }
 
+/**
+ * ToString() utility function for easily printing card metadata
+ * @param {*} card card data object
+ * @returns card string
+ */
 function cardToString(card){
     return `${card.kanji}${OUTPUT_DELIMETER}${formatFuriStr(card)}${OUTPUT_DELIMETER}${card.jlpt}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}`;
 }
 
+/**
+ * Generate list of terms to eventually send to Jisho.org
+ * @param {*} file target file to read for terms
+ * @returns list of terms
+ */
 function parseTermList(file){
     return new Promise((resolve, reject) => {
         fs.readFile(file, (err, buffer) => {
@@ -64,6 +84,11 @@ function parseTermList(file){
     });
 }
 
+/**
+ * Generate list of card data objects from a given term list
+ * @param {*} termList list of N terms passed in from parseTermList()
+ * @returns list of card data objects
+ */
 function getCardList(termList){
     let cardList = [];
     termList.forEach(term => {
@@ -72,5 +97,18 @@ function getCardList(termList){
     return Promise.all(cardList);
 }
 
-// parseTermList('./terms.txt').then(getCardList).then(cards => console.log(cards));
-getJishoCard('走り回る').then(cardToString).then(console.log);
+/**
+ * Write list of card objects to a file in csv-like format
+ * Each term is separated by a newline
+ * @param {*} cardList list of card data objects
+ */
+function genFile(cardList){
+    console.log(`Writing File!`);
+    let fileData = "";
+    for(const card of cardList){
+        fileData += `${cardToString(card)}\n`;
+    }
+    fs.writeFile(path='output.txt',data=fileData, callback= () => console.log(`Writing Complete: ${cardList.length} terms generated`));
+}
+
+parseTermList("./terms.txt").then(getCardList).then(genFile);
