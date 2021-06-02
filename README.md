@@ -30,6 +30,6 @@ Script used to scrape key info from Jisho.org and process it into a custom file 
 ## Import & Export Procedure
 1. Specify `INPUT_DELIMETER` at the top of the script (defaults to '\n' newline character).
 2. Specify `OUTPUT_DELIMETER` at the top of the script (defaults to ';' semi-colon character).
-3. Run command `node WebScraper.js "input_dir"`, where `input_dir` is the path to your set of term files.
-4. Grab generated files from locally generated `output_folder`.
+3. Run command `node WebScraper.js "input_dir"`, where `input_dir` is the path to your set of term files. If not specified, the program sends an error message to the console.
+4. Grab generated files from locally generated `output_dir`.
 5. Upload to flashcard ingestion service of your choice!

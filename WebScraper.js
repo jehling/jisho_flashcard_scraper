@@ -7,6 +7,7 @@ const fs = require('fs');
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
 const INPUT_DELIMETER = '\n';
 const OUTPUT_DELIMETER = ';';
+const OUTPUT_DIR = './output_dir/';
 const JLPT_REGEX = /N[1-5]/;
 
 /**
@@ -98,13 +99,27 @@ function getCardList(termList){
  * Each term is separated by a newline
  * @param {*} cardList list of card data objects
  */
-function genFile(cardList){
-    console.log(`Writing File!`);
+function genFile(cardList, outputFile='output.txt'){
     let fileData = "";
     for(const card of cardList){
         fileData += `${cardToString(card)}\n`;
     }
-    fs.writeFile(path='output.txt',data=fileData, callback= () => console.log(`Writing Complete: ${cardList.length} terms generated`));
+    fs.writeFile(path=OUTPUT_DIR + outputFile,data=fileData, callback= () => console.log(`Writing Complete - File: ${OUTPUT_DIR + outputFile} - Terms Generated: ${cardList.length}.`));
 }
 
-parseTermList("./terms.txt").then(getCardList).then(genFile);
+function main(){
+    let inputDir = process.argv[2];
+    if(!inputDir) return console.error("MISSING INPUT DIRECTORY ARG. Please provide the path to taret input dir");
+    fs.rmSync(OUTPUT_DIR, { force: true, recursive: true});
+    fs.mkdir(OUTPUT_DIR, dir_err => {
+        if(dir_err) return console.error(err);
+        fs.readdir(inputDir, (err, files) => {
+            if(err) return console.error(err);
+            files.forEach(file => {
+                parseTermList(`${inputDir}/${file}`).then(getCardList).then(cardList => genFile(cardList, file))
+            });
+        });
+    });
+}
+
+main();
