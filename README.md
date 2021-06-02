@@ -8,7 +8,7 @@ Script used to scrape key info from Jisho.org and process it into a custom file 
 - **gram** `<list>`: List of grammar role for a given word. Parts of speech, transitive or intransitive, etc.
 - **def** `<string>`: English translation for a given phrase.
 
-## Example
+### Example
 ```
 {
   kanji: '英語',
@@ -26,3 +26,10 @@ Script used to scrape key info from Jisho.org and process it into a custom file 
   def: 'to run around'
 };
 ```
+
+## Import & Export Procedure
+1. Specify input delimeter at the top of the script (defaults to '\n' newline character).
+2. Specify output delimeter at the top of the script (defaults to ';' semi-colon character).
+3. Run command `node WebScraper.js "input_dir"`, where `input_dir` is the path to your set of term files.
+4. Grab generated files from locally generated `output_folder`.
+5. Upload to flashcard ingestion service of your choice!
