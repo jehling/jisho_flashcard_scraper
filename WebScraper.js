@@ -19,6 +19,8 @@ async function getJishoCard(term){
     let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + term);
     let $ = jquery(dom.window);
     let card = $('#primary div.concept_light:first');
+    // Stage 0: Kanji
+    let kanjiStr = $(card).find('.concept_light-readings:first .text').text().trim();
     // Stage 1: Furigana
     let furigana = [];
     $(card).find('.concept_light-readings:first .furigana').children().each((idx, val) => {
@@ -34,7 +36,7 @@ async function getJishoCard(term){
     let meaning = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-wrapper:first .meaning-meaning').text();
     // Stage 5: Assemble Object
     return {
-        kanji: term,
+        kanji: kanjiStr,
         furi: furigana,
         jlpt: (jlptRegex ? jlptRegex : jlptRating),
         gram: grammar,
