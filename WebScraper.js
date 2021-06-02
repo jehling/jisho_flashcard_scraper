@@ -90,11 +90,7 @@ function parseTermList(file){
  * @returns list of card data objects
  */
 function getCardList(termList){
-    let cardList = [];
-    termList.forEach(term => {
-        cardList.push(getJishoCard(term));
-    });
-    return Promise.all(cardList);
+    return Promise.all(termList.map(getJishoCard));
 }
 
 /**
