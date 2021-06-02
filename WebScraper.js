@@ -6,7 +6,7 @@ const fs = require('fs');
 // Constants
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
 const INPUT_DELIMETER = '\n';
-const OUTPUT_DELIMETER = ';';
+const OUTPUT_DELIMETER = '\t';
 const OUTPUT_DIR = './output_dir/';
 const JLPT_REGEX = /N[1-5]/;
 
