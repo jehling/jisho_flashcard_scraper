@@ -12,11 +12,11 @@ const JLPT_REGEX = /N[1-5]/;
 
 /**
  * Extracts target data from Jisho.org HTML page given an arbitrary word
- * @param {*} kanjiStr term searched for using Jisho.org
+ * @param {*} term term searched for using Jisho.org
  * @returns data object containing { kanji, furi, jlpt, gram, def }
  */
-async function getJishoCard(kanjiStr){
-    let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + kanjiStr);
+async function getJishoCard(term){
+    let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + term);
     let $ = jquery(dom.window);
     let card = $('#primary div.concept_light:first');
     // Stage 1: Furigana
@@ -27,15 +27,16 @@ async function getJishoCard(kanjiStr){
     });
     // Stage 2: JLPT Rating
     let jlptRating = $(card).find('.concept_light-tag:nth-child(2)').text();
+    let jlptRegex = jlptRating.match(JLPT_REGEX);
     // Stage 3: Part of Speech
     let grammar = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-tags:first').text().split(',');
     // Stage 4: English Meaning
     let meaning = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-wrapper:first .meaning-meaning').text();
     // Stage 5: Assemble Object
     return {
-        kanji: kanjiStr,
+        kanji: term,
         furi: furigana,
-        jlpt: (jlptRating ? jlptRating.match(JLPT_REGEX)[0] : jlptRating),
+        jlpt: (jlptRegex ? jlptRegex : jlptRating),
         gram: grammar,
         def: meaning,
     };
