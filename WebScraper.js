@@ -6,6 +6,7 @@ const fs = require('fs');
 // Constants
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
 const INPUT_DELIMETER = '\n';
+const OUTPUT_DELIMETER = ';';
 const JLPT_REGEX = /N[1-5]/;
 
 async function getJishoCard(kanjiStr){
@@ -34,6 +35,23 @@ async function getJishoCard(kanjiStr){
     };
 }
 
+function formatFuriStr(card){
+    let outputStr = ``;
+    let furiList = card.furi;
+    let kanjiStr = card.kanji;
+    for(let i = 0; i < furiList.length; i++){
+        outputStr += kanjiStr.charAt(i);
+        if(furiList[i]){
+            outputStr += `[${furiList[i]}]`;
+        }
+    }
+    return outputStr;
+}
+
+function cardToString(card){
+    return `${card.kanji}${OUTPUT_DELIMETER}${formatFuriStr(card)}${OUTPUT_DELIMETER}${card.jlpt}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}`;
+}
+
 function parseTermList(file){
     return new Promise((resolve, reject) => {
         fs.readFile(file, (err, buffer) => {
@@ -54,4 +72,5 @@ function getCardList(termList){
     return Promise.all(cardList);
 }
 
-parseTermList('./terms.txt').then(getCardList).then(cards => console.log(cards));
+// parseTermList('./terms.txt').then(getCardList).then(cards => console.log(cards));
+getJishoCard('走り回る').then(cardToString).then(console.log);
