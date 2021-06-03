@@ -9,6 +9,7 @@ const INPUT_DELIMETER = '\n';
 const OUTPUT_DELIMETER = '\t';
 const OUTPUT_DIR = './output_dir/';
 const JLPT_REGEX = /N[1-5]/;
+const ONLY_KANA_FLAG = 'written using kana alone';
 
 /**
  * Extracts target data from Jisho.org HTML page given an arbitrary word
@@ -19,28 +20,32 @@ async function getJishoCard(term){
     let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + term);
     let $ = jquery(dom.window);
     let card = $('#primary div.concept_light:first');
-    // Stage 0: Kanji
+    // Stage 0: Check if term should only be written in Hiragana (prevent Kanji correction)
+    let kanaFlagStr = $(card).find('.meaning-wrapper:first .supplemental_info .sense-tag.tag-tag').text().trim().toLowerCase();
+    // Stage 1: Kanji
     let kanjiStr = $(card).find('.concept_light-readings:first .text').text().trim();
-    // Stage 1: Furigana
+    // Stage 2: Furigana
     let furigana = [];
     $(card).find('.concept_light-readings:first .furigana').children().each((idx, val) => {
         let text = $(val).text().trim();
         furigana.push(text);
     });
-    // Stage 2: JLPT Rating
+    // Stage 3: JLPT Rating
     let jlptRating = $(card).find('.concept_light-tag:nth-child(2)').text();
     let jlptRegex = jlptRating.match(JLPT_REGEX);
-    // Stage 3: Part of Speech
+    // Stage 4: Part of Speech
     let grammar = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-tags:first').text().split(',');
-    // Stage 4: English Meaning
+    // Stage 5: English Meaning
     let meaning = $(card).find('.concept_light-meanings > .meanings-wrapper .meaning-wrapper:first .meaning-meaning').text();
-    // Stage 5: Assemble Object
+    // Stage 6: Assemble Object
     return {
         kanji: kanjiStr,
         furi: furigana,
-        jlpt: (jlptRegex ? jlptRegex : jlptRating),
+        jlpt: (jlptRegex ? jlptRegex : ""),
         gram: grammar,
         def: meaning,
+        searchTerm: term,
+        kanaFlag: (kanaFlagStr.length > 0 ? kanaFlagStr.includes(ONLY_KANA_FLAG) : false),
     };
 }
 
@@ -68,7 +73,9 @@ function formatFuriStr(card){
  * @returns card string
  */
 function cardToString(card){
-    return `${card.kanji}${OUTPUT_DELIMETER}${formatFuriStr(card)}${OUTPUT_DELIMETER}${card.jlpt}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}`;
+    let kanji = (card.kanaFlag ? card.searchTerm : card.kanji);
+    let furi = (card.kanaFlag? "" : formatFuriStr(card));
+    return `${kanji}${OUTPUT_DELIMETER}${furi}${OUTPUT_DELIMETER}${card.jlpt}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}`;
 }
 
 /**
