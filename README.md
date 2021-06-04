@@ -4,7 +4,7 @@ Script used to scrape key details from [Jisho.org](https://jisho.org/) regarding
 ## Table of Contents
 - [Jisho Card Object](#jisho-card-object)
 - [Data Flow](#data-flow)
-- [Import & Export Procedure](#import-&-export-procedure)
+- [Execution Procedure](#execution-procedure)
 
 ## Jisho Card Object
 ### Fields
@@ -77,7 +77,7 @@ Formatted text file where each line contains all of the data collected for a giv
 食べる  食[た]べる      N5      Ichidan verb, Transitive verb   to eat
 読む    読[よ]む        N5      Godan verb with mu ending, Transitive verb      to read
 ```
-## Import & Export Procedure
+## Execution Procedure
 1. Specify `INPUT_DELIMETER` at the top of the script (defaults to '\n' newline character).
 2. Specify `OUTPUT_DELIMETER` at the top of the script (defaults to '\t' tab character).
 3. Run command `node WebScraper.js "input_dir"`, where `input_dir` is the path to your set of term files. If not specified, the program sends an error message to the console.
