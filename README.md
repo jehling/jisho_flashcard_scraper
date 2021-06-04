@@ -53,14 +53,23 @@ Script used to scrape key details from [Jisho.org](https://jisho.org/) regarding
 ```
 
 ## Data FLow
-### **Input**
-Basic text file containing terms written in Hiragana, Kanji, or Romanji. Terms are separated by newlines `\n` such that one term exists per line. 
-#### Sample Input File
+### Input
+Basic text file containing terms written in Hiragana, Kanji, or Romanji. Terms are separated by newlines `\n` such that one term exists per line.
+### Output
+Formatted text file where each line contains all of the data collected for a given term. Fields are tab `\t` separated due to the prevelance of semi-colons and commas inside Jisho definitions.
+### Sample Input File
 ```
 英語
 ima
 たべる
 読む
+```
+### Sample Output File
+```
+英語    英[えい]語[ご]  N5      Noun, No-adjective      English (language)
+今      今[いま]        N5      Noun, No-adjective, Adverb      now; the present time; just now; soon; immediately
+食べる  食[た]べる      N5      Ichidan verb, Transitive verb   to eat
+読む    読[よ]む        N5      Godan verb with mu ending, Transitive verb      to read
 ```
 ### Processing
 1. Parse terms from the provided input file.
@@ -68,15 +77,6 @@ ima
 3. Scrape HTML using **JQuery** to grab term data.
 4. Auto-correct input term to Kanji with Furigana unless unless an "only kana" flag is present. This flag implies that a given term is generally written using purely Hiragana or Katakana.
 5. Write formatted data block to dedicated output textfile. 
-### Output
-Formatted text file where each line contains all of the data collected for a given term. Fields are tab `\t` separated due to the prevelance of semi-colons and commas inside Jisho definitions.
-#### Sample Output File
-```
-英語    英[えい]語[ご]  N5      Noun, No-adjective      English (language)
-今      今[いま]        N5      Noun, No-adjective, Adverb      now; the present time; just now; soon; immediately
-食べる  食[た]べる      N5      Ichidan verb, Transitive verb   to eat
-読む    読[よ]む        N5      Godan verb with mu ending, Transitive verb      to read
-```
 ## Execution Procedure
 1. Specify `INPUT_DELIMETER` at the top of the script (defaults to '\n' newline character).
 2. Specify `OUTPUT_DELIMETER` at the top of the script (defaults to '\t' tab character).
