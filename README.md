@@ -76,7 +76,8 @@ ima
 2. Make web request to [Jisho.org](https://jisho.org/) to search term definitions.
 3. Scrape HTML using **JQuery** to grab term data.
 4. Auto-correct input term to Kanji with Furigana unless unless an "only kana" flag is present. This flag implies that a given term is generally written using purely Hiragana or Katakana.
-5. Write formatted data block to dedicated output textfile. 
+5. If there is no reading available, copy forward Kanji / Search Term for reading
+6. Write formatted data block to dedicated output textfile. 
 ## Execution Procedure
 1. Specify `INPUT_DELIMETER` at the top of the script (defaults to '\n' newline character).
 2. Specify `OUTPUT_DELIMETER` at the top of the script (defaults to '\t' tab character).
