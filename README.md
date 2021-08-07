@@ -1,4 +1,4 @@
-# jisho_flashcard_script
+# jisho_flashcard_scraper
 Script used to scrape key details from [Jisho.org](https://jisho.org/) regarding terms passed in by an input text file. The resulting data is then formatted and written to a respective output text file. Users can then easily ingest these output files into flashcard / study programs of ther choosing.
 
 ## Table of Contents
