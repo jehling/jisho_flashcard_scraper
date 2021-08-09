@@ -5,6 +5,7 @@ Script used to scrape key details from [Jisho.org](https://jisho.org/) regarding
 - [Jisho Card Object](#jisho-card-object)
 - [Data Flow](#data-flow)
 - [Execution Procedure](#execution-procedure)
+- [Developer Note](#developer-note)
 
 ## Jisho Card Object
 ### Fields
