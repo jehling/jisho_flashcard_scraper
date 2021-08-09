@@ -90,6 +90,7 @@ function parseTermList(file){
             let rawArray = buffer.toString().split(INPUT_DELIMETER);
             let cleanArray = [];
             rawArray.forEach(term => cleanArray.push(term.trim()));
+            console.log(`SUCCESSFULLY READ FROM FILE: ${cleanArray.length} TERMS`);
             return resolve(cleanArray);
         });
     });
@@ -101,6 +102,7 @@ function parseTermList(file){
  * @returns list of card data objects
  */
 function getCardList(termList){
+    console.log(`NOW GENERATING: ${termList.length} FLASHCARD DATA OBJECTS`);
     return Promise.all(termList.map(getJishoCard));
 }
 
@@ -111,6 +113,7 @@ function getCardList(termList){
  */
 function genFile(cardList, outputFile='output.txt'){
     let fileData = "";
+    console.log(`NOW WRITING TO FILE: ${cardList.length} FLASHCARDS.`);
     for(const card of cardList){
         fileData += `${cardToString(card)}\n`;
     }
@@ -123,6 +126,7 @@ function main(){
     fs.rmSync(OUTPUT_DIR, { force: true, recursive: true});
     fs.mkdir(OUTPUT_DIR, dir_err => {
         if(dir_err) return console.error(err);
+        console.log("OUTPUT DIRECTORY GENERATED. EXECUTING SCRIPT.\n");
         fs.readdir(inputDir, (err, files) => {
             if(err) return console.error(err);
             files.forEach(file => {
