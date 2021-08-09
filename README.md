@@ -84,3 +84,6 @@ ima
 3. Run command `node WebScraper.js "input_dir"`, where `input_dir` is the path to your set of term files. If not specified, the program sends an error message to the console.
 4. Grab generated files from locally generated `output_dir`.
 5. Upload to flashcard ingestion service of your choice!
+
+## Developer Note
+If you want to quickly generate a large volume of flashcards, this script pairs extremely well with my [JLPT Vocab Scraper](https://github.com/jehling/jlpt_vocab_scraper). This project promps the user (via the terminal) for a target JLPT level (1-5) and then scrapes all relevant vocabulary terms from [JLPT Sensei](https://jlptsensei.com/), a site dedicated to helping students pass the JLPT. 
