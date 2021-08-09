@@ -86,4 +86,4 @@ ima
 5. Upload to flashcard ingestion service of your choice!
 
 ## Developer Note
-If you want to quickly generate a large volume of flashcards, this script pairs extremely well with my [JLPT Vocab Scraper](https://github.com/jehling/jlpt_vocab_scraper). This project promps the user (via the terminal) for a target JLPT level (1-5) and then scrapes all relevant vocabulary terms from [JLPT Sensei](https://jlptsensei.com/), a site dedicated to helping students pass the JLPT. 
+If you want to quickly generate a large volume of flashcards, this script pairs extremely well with my [JLPT Vocab Scraper](https://github.com/jehling/jlpt_vocab_scraper). This project promps the user (via the terminal) for a target JLPT level (1-5) and then scrapes all relevant vocabulary terms from [JLPT Sensei](https://jlptsensei.com/), a site dedicated to helping students pass the JLPT. This results in a newline separated output file that can easily be used as input for flashcard generation.
