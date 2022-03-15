@@ -75,7 +75,7 @@ function formatFuriStr(card){
 function cardToString(card){
     let kanji = (card.kanaFlag ? card.searchTerm : card.kanji);
     let furi = (card.kanaFlag? kanji : formatFuriStr(card));
-    return `${kanji}${OUTPUT_DELIMETER}${furi}${OUTPUT_DELIMETER}${card.jlpt}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}`;
+    return `${kanji}${OUTPUT_DELIMETER}${furi}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}${OUTPUT_DELIMETER}${card.jlpt}`;
 }
 
 /**
