@@ -1,4 +1,7 @@
 {
+  "scripts": { 
+    "main": "node WebScraper.js"
+  },
   "dependencies": {
     "jquery": "^3.6.0",
     "jsdom": "^16.6.0"
