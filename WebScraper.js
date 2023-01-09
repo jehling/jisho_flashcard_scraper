@@ -1,13 +1,10 @@
 // Imports
 const {JSDOM} = require('jsdom');
 const jquery = require('jquery');
-const fs = require('fs');
 
 // Constants
+const OUTPUT_DELIMETER = ' ';
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
-const INPUT_DELIMETER = '\n';
-const OUTPUT_DELIMETER = '\t';
-const OUTPUT_DIR = './output_dir/';
 const JLPT_REGEX = /N[1-5]/;
 const ONLY_KANA_FLAG = 'written using kana alone';
 const ERROR_JISHO_CARD = {kanji: "", furi: "", jlpt: "", gram: "", def: "", searchTerm: "", kanaFlag: ""};
@@ -18,7 +15,7 @@ const DELAY_MS = 100; // 100ms delay incrementer to avoid 502s from Jisho.org
  * @param {*} term term searched for using Jisho.org
  * @returns data object containing { kanji, furi, jlpt, gram, def }
  */
-async function getJishoCard(term){
+async function generateCard(term){
     try{
         let dom = await JSDOM.fromURL(JISHO_URL_PREFIX + term);
         let $ = jquery(dom.window);
@@ -57,6 +54,21 @@ async function getJishoCard(term){
 }
 
 /**
+ * Generate list of card data objects from a given term list
+ * @param {*} termList list of N terms passed in from parseTermList()
+ * @returns list of card data objects
+ */
+function generateCardList(termList){
+    console.log(`NOW GENERATING: ${termList.length} FLASHCARD DATA OBJECTS`);
+    const promises = termList.map((term, idx) => {
+        return new Promise((resolve, reject) => setTimeout(resolve, idx * DELAY_MS)).then(() => { 
+            console.log(`FLASHCARDS GENERATED: ${idx + 1}/${termList.length}`);
+            return generateCard(term)});
+    });
+    return Promise.all(promises);
+}
+
+/**
  * Generate Anki specific furigana string for flashcard formatting
  * @param {*} card 
  * @returns formatted string with kanji[furigana]
@@ -85,67 +97,4 @@ function cardToString(card){
     return `${kanji}${OUTPUT_DELIMETER}${furi}${OUTPUT_DELIMETER}${card.gram}${OUTPUT_DELIMETER}${card.def}${OUTPUT_DELIMETER}${card.jlpt}`;
 }
 
-/**
- * Generate list of terms to eventually send to Jisho.org
- * @param {*} file target file to read for terms
- * @returns list of terms
- */
-function parseTermList(file){
-    return new Promise((resolve, reject) => {
-        fs.readFile(file, (err, buffer) => {
-            if(err) return reject(err);
-            let rawArray = buffer.toString().split(INPUT_DELIMETER);
-            let cleanArray = [];
-            rawArray.forEach(term => cleanArray.push(term.trim()));
-            console.log(`SUCCESSFULLY READ FROM FILE: ${cleanArray.length} TERMS`);
-            return resolve(cleanArray);
-        });
-    });
-}
-
-/**
- * Generate list of card data objects from a given term list
- * @param {*} termList list of N terms passed in from parseTermList()
- * @returns list of card data objects
- */
-function getCardList(termList){
-    console.log(`NOW GENERATING: ${termList.length} FLASHCARD DATA OBJECTS`);
-    const promises = termList.map((term, idx) => {
-        return new Promise((resolve, reject) => setTimeout(resolve, idx * DELAY_MS)).then(() => { 
-            console.log(`FLASHCARDS GENERATED: ${idx + 1}/${termList.length}`);
-            return getJishoCard(term)});
-    });
-    return Promise.all(promises);
-}
-
-/**
- * Write list of card objects to a file in csv-like format
- * Each term is separated by a newline
- * @param {*} cardList list of card data objects
- */
-function genFile(cardList, outputFile='output.txt'){
-    let fileData = "";
-    console.log(`NOW WRITING TO FILE: ${cardList.length} FLASHCARDS.`);
-    for(const card of cardList){
-        fileData += `${cardToString(card)}\n`;
-    }
-    fs.writeFile(path=OUTPUT_DIR + outputFile,data=fileData, callback= () => console.log(`Writing Complete - File: ${OUTPUT_DIR + outputFile} - Terms Generated: ${cardList.length}.`));
-}
-
-function main(){
-    let inputDir = process.argv[2];
-    if(!inputDir) return console.error("MISSING INPUT DIRECTORY ARG. Please provide the path to taret input dir");
-    fs.rmSync(OUTPUT_DIR, { force: true, recursive: true});
-    fs.mkdir(OUTPUT_DIR, dir_err => {
-        if(dir_err) return console.error(err);
-        console.log("OUTPUT DIRECTORY GENERATED. EXECUTING SCRIPT.\n");
-        fs.readdir(inputDir, (err, files) => {
-            if(err) return console.error(err);
-            files.forEach(file => {
-                parseTermList(`${inputDir}/${file}`).then(getCardList).then(cardList => genFile(cardList, file))
-            });
-        });
-    });
-}
-
-main();
+module.exports = { generateCardList, cardToString};
