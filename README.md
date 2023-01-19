@@ -80,11 +80,9 @@ ima
 5. If there is no reading available, copy forward Kanji / Search Term for reading
 6. Write formatted data block to dedicated output textfile. 
 ## Execution Procedure
-1. Specify `INPUT_DELIMETER` at the top of the script (defaults to '\n' newline character).
-2. Specify `OUTPUT_DELIMETER` at the top of the script (defaults to '\t' tab character).
-3. Run command `npm run main input_dir`, where `input_dir` is the path to your set of term files. If not specified, the program sends an error message to the console.
-4. Grab generated files from locally generated `output_dir`.
-5. Upload to flashcard ingestion service of your choice!
+1. Run command `npm run main input.txt`, where `input.txt` is the path to your file.
+2. Grab generated `output.txt` files.
+3. Upload to flashcard ingestion service of your choice!
 
 ## Developer Note
 If you want to quickly generate a large volume of flashcards, this script pairs with my [JLPT Vocab Scraper](https://github.com/jehling/jlpt_vocab_scraper). This project prompts the user (via the terminal) for a target JLPT level (1-5) and then scrapes all relevant vocabulary terms from [JLPT Sensei](https://jlptsensei.com/), a site dedicated to helping students pass the JLPT. This results in a newline separated output file that can easily be used as input for flashcard generation.

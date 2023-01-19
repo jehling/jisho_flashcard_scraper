@@ -22,7 +22,7 @@ function parseTermList(file){
 }
 
 /**
- * Write list of card objects to a file in csv-like format
+ * Write list of card objects to a file with values separated by tabs 
  * Each term is separated by a newline
  * @param {*} cardList list of card data objects
  */

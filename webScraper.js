@@ -3,7 +3,7 @@ const {JSDOM} = require('jsdom');
 const jquery = require('jquery');
 
 // Constants
-const OUTPUT_DELIMETER = ',';
+const OUTPUT_DELIMETER = '\t';
 const JISHO_URL_PREFIX = 'https://jisho.org/search/';
 const JLPT_REGEX = /N[1-5]/;
 const ONLY_KANA_FLAG = 'written using kana alone';
