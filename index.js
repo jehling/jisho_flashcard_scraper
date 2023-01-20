@@ -1,5 +1,6 @@
 const fs = require('fs');
 const INPUT_DELIMETER = '\n';
+const TERM_DELIMETER = ",";
 const OUTPUT_DIR = './';
 const { generateCardList, cardToString } = require('./webScraper');
 
@@ -14,7 +15,11 @@ function parseTermList(file){
             if(err) return reject(err);
             let rawArray = buffer.toString().split(INPUT_DELIMETER);
             let cleanArray = [];
-            rawArray.forEach(term => cleanArray.push(term.trim()));
+            rawArray.forEach(term => {
+                // Grab first item from CSV if input isn't purely terms
+                const cleanTerm = term.trim().split(TERM_DELIMETER)[0];
+                cleanArray.push(term.trim());
+            });
             console.log(`SUCCESSFULLY READ FROM FILE: ${cleanArray.length} TERMS`);
             return resolve(cleanArray);
         });
