@@ -17,8 +17,8 @@ function parseTermList(file){
             let cleanArray = [];
             rawArray.forEach(term => {
                 // Grab first item from CSV if input isn't purely terms
-                const cleanTerm = term.trim().split(TERM_DELIMETER)[0];
-                cleanArray.push(term.trim());
+                const cleanTerm = term.split(TERM_DELIMETER)[0].trim();
+                cleanArray.push(cleanTerm);
             });
             console.log(`SUCCESSFULLY READ FROM FILE: ${cleanArray.length} TERMS`);
             return resolve(cleanArray);
