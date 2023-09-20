@@ -1,6 +1,6 @@
 {
   "scripts": { 
-    "main": "node WebScraper.js"
+    "main": "node index.js"
   },
   "dependencies": {
     "jquery": "^3.6.0",
