@@ -12,9 +12,9 @@ Script used to scrape key details from [Jisho.org](https://jisho.org/) regarding
 - **kanji** `<string>`: Text representation of a given word including both Hiragana and Kanji.
 - **furi** `<list>`: List of furigana associated with a given phrase. Array index correlates to their respective kanji character in the phrase. Empty spaces account for Hiragana.
 - **jlpt** `<string>`: JLPT Rating (N1 - N5) for a given term. Empty if not provided.
-- **gram** `<list>`: List of grammar role for a given word. Parts of speech, transitive or intransitive, etc.
+- **gram** `<list>`: List of grammar roles for a given word. Parts of speech, transitive or intransitive, etc.
 - **def** `<string>`: English translation for a given phrase.
-- **searchTerm** `<string>`: Raw string provided by input file for term search. Either Romanji or Hiragana.
+- **searchTerm** `<string>`: Raw string provided by input file for searching. Either Romanji or Hiragana.
 - **kanaFlag** `<Boolean>`: Flag for whether or not a given term should be corrected to the kanji equivalent.
 
 ### Example
